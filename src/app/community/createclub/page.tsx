@@ -1,18 +1,18 @@
 import React from 'react'
-import HomeNav from '../components/HomeNav'
 import Link from 'next/link'
-import CommunityForm from '../components/CommunityForm'
+import CommNav from '@/app/components/CommNav'
+import ClubForm from '@/app/components/ClubForm'
 
-const NewCommunity = () => {
+const NewClub = () => {
   return (
     
     <>
-    <HomeNav/>
+    <CommNav/>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt dolore veritatis obcaecati repellendus, facere sint fugiat labore? Rerum harum minima soluta laudantium impedit! Facere incidunt ab, inventore voluptatem illo harum.</p>
-    <Link href="/community"><div>NewCommunity</div></Link>
-    <CommunityForm/>
+    <Link href="/community/club"><div>NewClub</div></Link>
+    <ClubForm/>
     </>
   )
 }
 
-export default NewCommunity
+export default NewClub

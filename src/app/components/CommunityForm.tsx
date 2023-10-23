@@ -4,7 +4,7 @@ import React from 'react'
 const CommunityForm = () => {
   return (
     <>
-    <div>CommunityForm</div>
+    <div>Community Registration Form Here</div>
     </>
   )
 }

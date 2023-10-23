@@ -2,16 +2,16 @@ import React from 'react'
 import styles from '@/app/styles/button.module.css'
 import Link from 'next/link'
 
-const CreateComm = () => {
+const CreateComm = (props: {option: string}) => {
   return (
     <div>
-        <Link href="/createcommunity">
+
         <button className={styles.btn}>
             
-                <p>Create Community</p>
+                <p>Create {props.option}</p>
             
         </button>
-        </Link>
+
     </div>
   )
 }

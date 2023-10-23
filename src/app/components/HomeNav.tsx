@@ -15,10 +15,10 @@ const HomeNav = () => {
       <Link href="/aboutUs">About Us</Link> 
       </li>
       <li>
-      <Link href="/">My Communities</Link> 
+      <Link href="/communityList">My Communities</Link> 
       </li>
       <li>
-        <Link href="/">Sign In</Link> 
+        <Link href="/signIn">Sign In</Link> 
       </li>
       <li style={{"float":"right","padding":"2px"}}>
       <Link href="/">Club Central</Link> 
