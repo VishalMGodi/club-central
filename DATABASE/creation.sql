@@ -3,7 +3,7 @@ use club_central;
 
 
 create table user(
-    user_id INT,
+    user_id INT AUTO_INCREMENT,
     username VARCHAR(30) unique,
     email VARCHAR(30) unique,
     passwd VARCHAR(30),
@@ -13,7 +13,7 @@ create table user(
 );
 
 create table community(
-    comm_id INT,
+    comm_id INT AUTO_INCREMENT,
     comm_name VARCHAR(30),
     location_id INT,
     comm_description LONGTEXT,
@@ -22,7 +22,7 @@ create table community(
 );
 
 create table club(
-    club_id INT,
+    club_id INT AUTO_INCREMENT,
     comm_id INT,
     club_head_id INT,
     club_description LONGTEXT,
@@ -32,7 +32,7 @@ create table club(
 );
 
 create table event(
-    event_id INT,
+    event_id INT AUTO_INCREMENT,
     club_id INT,
     event_name VARCHAR(30),
     prize_money INT,
@@ -46,7 +46,7 @@ create table event(
 );
 
 create table roles(
-    role_id INT,
+    role_id INT AUTO_INCREMENT,
     club_id INT,
     role_name VARCHAR(30),
     role_permissions INT,
@@ -55,9 +55,9 @@ create table roles(
 );
 
 create TABLE form (
-    form_id INT,
+    form_id INT AUTO_INCREMENT,
     contact_info VARCHAR(30),
-    community_id INT,
+    comm_id INT,
     auth_id VARCHAR(50),
     PRIMARY KEY(form_id)
 );
@@ -85,7 +85,7 @@ CREATE TABLE submit_form(
     PRIMARY KEY(user_id, form_id)
 );
 CREATE TABLE location(
-    location_id INT,
+    location_id INT AUTO_INCREMENT,
     country VARCHAR(30),
     state VARCHAR(30), 
     city VARCHAR(30),
@@ -105,63 +105,95 @@ CREATE TABLE register_for_event(
 CREATE TABLE message(
     user_id INT,
     club_id INT,
-    message_id INT,
+    message_id INT AUTO_INCREMENT,
     data BLOB,
     PRIMARY KEY(user_id, club_id, message_id)
 );
 
-ALTER TABLE register_for_event ADD CONSTRAINT fk_user_id
+ALTER TABLE register_for_event ADD CONSTRAINT fk_rfe_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
-ALTER TABLE register_for_event ADD CONSTRAINT fk_event_id
+ALTER TABLE register_for_event ADD CONSTRAINT fk_rfe_event_id
 FOREIGN KEY (event_id) REFERENCES user (event_id);
 
-ALTER TABLE event ADD CONSTRAINT fk_club_id
+ALTER TABLE event ADD CONSTRAINT fk_event_club_id
 FOREIGN KEY (club_id) REFERENCES club (club_id);
 
-ALTER TABLE roles ADD CONSTRAINT fk_club_id
+ALTER TABLE roles ADD CONSTRAINT fk_roles_club_id
 FOREIGN KEY (club_id) REFERENCES club (club_id);
 
-ALTER TABLE club ADD CONSTRAINT fk_comm_id
+ALTER TABLE club ADD CONSTRAINT fk_club_comm_id
 FOREIGN KEY (comm_id) REFERENCES community (comm_id);
-ALTER TABLE club ADD CONSTRAINT fk_user_id
+ALTER TABLE club ADD CONSTRAINT fk_club_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
 
-ALTER TABLE member_of_club ADD CONSTRAINT fk_user_id
+ALTER TABLE member_of_club ADD CONSTRAINT fk_moc_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
-ALTER TABLE member_of_club ADD CONSTRAINT fk_club_id
+ALTER TABLE member_of_club ADD CONSTRAINT fk_moc_club_id
 FOREIGN KEY (club_id) REFERENCES club (club_id);
 
-ALTER TABLE belongs_to_comm ADD CONSTRAINT fk_user_id
+ALTER TABLE belongs_to_comm ADD CONSTRAINT fk_btc_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
-ALTER TABLE belongs_to_comm ADD CONSTRAINT fk_comm_id
+ALTER TABLE belongs_to_comm ADD CONSTRAINT fk_btc_comm_id
 FOREIGN KEY (comm_id) REFERENCES community (comm_id);
 
-ALTER TABLE is_granted_role ADD CONSTRAINT fk_user_id
+ALTER TABLE is_granted_role ADD CONSTRAINT fk_igr_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
-ALTER TABLE is_granted_role ADD CONSTRAINT fk_role_id
-FOREIGN KEY (role_id) REFERENCES role (role_id);
+ALTER TABLE is_granted_role ADD CONSTRAINT fk_igr_role_id
+FOREIGN KEY (role_id) REFERENCES roles (role_id);
 
-ALTER TABLE message ADD CONSTRAINT fk_user_id
+ALTER TABLE message ADD CONSTRAINT fk_message_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
-ALTER TABLE member_of_club ADD CONSTRAINT fk_club_id
+ALTER TABLE member_of_club ADD CONSTRAINT fk_message_club_id
 FOREIGN KEY (club_id) REFERENCES club (club_id);
 
-ALTER TABLE user ADD CONSTRAINT fk_location_id
+ALTER TABLE user ADD CONSTRAINT fk_user_location_id
 FOREIGN KEY (location_id) REFERENCES location (location_id);
 
-ALTER TABLE community ADD CONSTRAINT fk_location_id
+ALTER TABLE community ADD CONSTRAINT fk_community_location_id
 FOREIGN KEY (location_id) REFERENCES location (location_id);
 
-ALTER TABLE submit_form ADD CONSTRAINT fk_user_id
+ALTER TABLE submit_form ADD CONSTRAINT fk_sf_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
-ALTER TABLE submit_form ADD CONSTRAINT fk_form_id
+ALTER TABLE submit_form ADD CONSTRAINT fk_sf_form_id
 FOREIGN KEY (form_id) REFERENCES form (form_id);
 
-ALTER TABLE form ADD CONSTRAINT fk_comm_id
+ALTER TABLE form ADD CONSTRAINT fk_form_comm_id
 FOREIGN KEY (comm_id) REFERENCES community (comm_id);
 
-ALTER TABLE proof ADD CONSTRAINT fk_form_id
+ALTER TABLE proof ADD CONSTRAINT fk_proof_form_id
 FOREIGN KEY (form_id) REFERENCES form (form_id);
+
+
+DELIMITER $$
+CREATE PROCEDURE AddUserWithLocationProcedure(
+    IN user_name VARCHAR(30),
+    IN user_email VARCHAR(30),
+    IN user_password VARCHAR(30),
+    IN location_country VARCHAR(30),
+    IN location_state VARCHAR(30),
+    IN location_city VARCHAR(30)
+)
+BEGIN
+    DECLARE user_location_id INT;
+
+    SELECT location_id INTO user_location_id FROM location
+    WHERE country = location_country AND state = location_state AND city = location_city;
+
+    -- If the location does not exist, insert a new location
+    IF user_location_id IS NULL THEN
+        INSERT INTO location (country, state, city)
+        VALUES (location_country, location_state, location_city);
+        
+        SET user_location_id = LAST_INSERT_ID();
+    END IF;
+
+    -- Insert user into the Users table with the location_id
+    INSERT INTO user (username, email, passwd, location_id)
+    VALUES (user_name, user_email, user_password, user_location_id);
+END;
+$$
+DELIMITER ;
+
 
 
 
