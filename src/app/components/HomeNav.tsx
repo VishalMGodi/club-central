@@ -15,7 +15,7 @@ const HomeNav = () => {
       <Link href="/aboutUs">About Us</Link> 
       </li>
       <li>
-      <Link href="/communityList">My Communities</Link> 
+      <Link href="/community">My Communities</Link> 
       </li>
       <li>
         <Link href="/signIn">Sign In</Link> 
