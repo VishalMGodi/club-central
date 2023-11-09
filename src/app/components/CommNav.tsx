@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import styles from '@/app/styles/homeNav.module.css'
 
-const CommNav = (props: {comm: String, comm_id: string}) => {
+const CommNav = (props: {comm: String, comm_id: String}) => {
     return (
         <>
         <ul className={styles.homeNavbar}>
@@ -19,7 +19,7 @@ const CommNav = (props: {comm: String, comm_id: string}) => {
            <Link href={`/community/${props.comm_id}/clubList`}>My Clubs</Link> 
            </li>
            <li>
-             <Link href="/">Announcements</Link> 
+             <Link href={`/community/${props.comm_id}/announcements`}>Announcements</Link> 
            </li>
            <li style={{"float":"right","padding":"2px"}}>
            <Link href={`/community/${props.comm_id}`}>{props.comm}</Link> 

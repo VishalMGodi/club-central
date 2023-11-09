@@ -1,3 +1,6 @@
+// @ts-nocheck
+// @ts-ignore
+
 import React from 'react'
 import CommNav from '../../../components/CommNav'
 import axios from 'axios'
@@ -6,9 +9,9 @@ import axios from 'axios'
 const ClubInfo = async({params}) => {
   console.log("ClubInfo",params.comm_id)
   var id=params.comm_id
-  const response = await axios.get(`http://localhost:4000/allClubs/:${id}`);
+  const response = await axios.get(`http://localhost:4000/allClubs/`, {params: {comm_id: id}});
   const clubs = response.data
-  const response2 = await axios.get(`http://localhost:4000/commInfo/:${id}`);
+  const response2 = await axios.get(`http://localhost:4000/commInfo/`,{params: {comm_id: id}});
   const comm_name = response2.data[0].comm_name;
 
   return (

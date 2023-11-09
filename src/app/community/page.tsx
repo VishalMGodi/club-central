@@ -63,12 +63,14 @@
 
 
 // "use server"
+// @ts-nocheck
+// @ts-ignore
 import React from 'react'
 import HomeNav from '../components/HomeNav'
 import Link from 'next/link'
 import { useState } from 'react'
 import axios from 'axios'
-
+import CreateComm from '../components/CreateComm'
 
 const CommunityList = async () => {
   // const [comm,setComm] = useState("")
@@ -76,9 +78,7 @@ const CommunityList = async () => {
   //   console.log(response.json())
     // setComm(response.data)
     
-    const response = await axios.get("http://localhost:4000/getComm/:1",{
-      responseType: 'json',
-    })
+    const response = await axios.get("http://localhost:4000/getComm/",{params: {userid: 1}})
     const datas = response.data
     console.log(datas)
 
@@ -88,16 +88,11 @@ const CommunityList = async () => {
   return (
     <div>
         <HomeNav/>
+        <h1>My Communities</h1>
         <ul>
-        {/* <li>
-            <Link href="/community">Community 1</Link>
-        </li>
-        <li>
-            Community 2
-        </li> */}
         {datas.map(data => <Link href={`/community/${String(data.comm_id)}`}><li key={data.comm_id}>{data.comm_name}</li></Link>)}
         </ul>
-        
+        <Link href="/createcommunity"><CreateComm option={"Community"}/></Link>
     </div>
   )
 }

@@ -6,7 +6,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'amaatra123',
-    database: 'club_central',
+    database: 'club_central2',
     connectionLimit: 10
 })
 
@@ -33,12 +33,13 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.get('/test',(req,res)=>{
+    console.log(req.query);
     pool.query(`select * from user where user_id=1`, (err, result, fields)=>{
         if(err){
             return console.log(err);
         }
         // console.log(fields);
-        console.log(result);
+        // console.log(result);
         // console.log(req)
         // console.log(res)
         res.json(result);
@@ -46,15 +47,15 @@ app.get('/test',(req,res)=>{
     // res.json({status: true})
 });
 
-app.get('/getComm/:id',(req,res)=>{
-    var id=req.params.id;
-    id=id.substring(1);
+
+app.get('/getComm/',(req,res)=>{
+    const id=req.query.userid;
     pool.query(`select c.* from community c left join belongs_to_comm b on c.comm_id=b.comm_id where user_id=${id};`, (err, result, fields)=>{
         if(err){
             return console.log(err);
         }
-        console.log(result);
-        console.log(req.params.id);
+        // console.log(result);
+        // console.log(req.params.id);
         // console.log(req)
         // console.log(res)
         res.json(result);
@@ -62,15 +63,14 @@ app.get('/getComm/:id',(req,res)=>{
     // res.json({status: true})
 });
 
-app.get(`/commInfo/:id`,(req,res)=>{
-    var id = req.params.id;
-    id = id.substring(1);
+app.get(`/commInfo/`,(req,res)=>{
+    const id = req.query.comm_id;
     pool.query(`select c.* from community c where comm_id=${id}`, (err, result, fields)=>{
         if(err){
             return console.log(err);
         }
-        console.log(result);
-        console.log(req.params.id);
+        // console.log(result);
+        // console.log(req.params.id);
         // console.log(req)
         // console.log(res)
         res.json(result);
@@ -78,15 +78,30 @@ app.get(`/commInfo/:id`,(req,res)=>{
     // res.json({status: true})
 });
 
-app.get(`/allClubs/:id`,(req,res)=>{
-    var id = req.params.id;
-    id = id.substring(1);
+app.get(`/clubInfo/`,(req,res)=>{
+    const id = req.query.club_id;
+    pool.query(`select c.* from club c where club_id=${id}`, (err, result, fields)=>{
+        if(err){
+            return console.log(err);
+        }
+        // console.log(result);
+        // console.log(req.params.id);
+        // console.log(req)
+        // console.log(res)
+        res.json(result);
+    })
+    // res.json({status: true})
+});
+
+
+app.get(`/allClubs/`,(req,res)=>{
+    const id = req.query.comm_id;
     pool.query(`select c.* from club c where comm_id=${id}`, (err, result, fields)=>{
         if(err){
             return console.log(err);
         }
-        console.log(result);
-        console.log(req.params.id);
+        // console.log(result);
+        // console.log(req.params.id);
         // console.log(req)
         // console.log(res)
         res.json(result);
@@ -94,20 +109,95 @@ app.get(`/allClubs/:id`,(req,res)=>{
     // res.json({status: true})
 });
 
-app.get(`/myClubs/:id`,(req,res)=>{
-    var id = req.params.id;
-    id = id.substring(1);
-    pool.query(`select c.* from club c left join member_of_club m on c.club_id = m.club_id where c.comm_id=${id} and m.user_id=1`, (err, result, fields)=>{
+app.get(`/myClubs/`,(req,res)=>{
+    const comm=req.query.comm;
+    const user=req.query.user;
+    pool.query(`select c.* from club c left join member_of_club m on c.club_id = m.club_id where c.comm_id=${comm} and m.user_id=${user}`, (err, result, fields)=>{
         if(err){
             return console.log(err);
         }
-        console.log(result);
-        console.log(req.params.id);
+        // console.log(result);
+        // console.log(req.params.id);
         // console.log(req)
         // console.log(res)
         res.json(result);
     })
     // res.json({status: true})
+});
+
+app.get(`/allEvents/`,(req,res)=>{
+    const id = req.query.comm_id
+    pool.query(`select * from event e left join club c on c.club_id=e.club_id where c.comm_id=${id} order by start_time;`, (err, result, fields)=>{
+        if(err){
+            return console.log(err);
+        }
+        // console.log(result);
+        // console.log(req.params.id);
+        // console.log(req)
+        // console.log(res)
+        res.json(result);
+    })
+    // res.json({status: true})
+});
+
+
+
+app.post('/createEvent',(req,res)=>{
+    // SRN, First name, Last name, Email, Password, Section, Semester
+    console.log(req.body);
+    
+    // res.json({message: "Success"})
+    pool.query(
+    `insert into event(club_id, event_name, prize_money, team_size, event_type, event_mode, event_description, start_time, end_time)
+    values(${req.body.club_id},'${req.body.event_name}',${req.body.prize_money},'${req.body.team_size}','${req.body.event_type}','${req.body.event_mode}','${req.body.event_description}','${req.body.start_time}','${req.body.end_time}')`, 
+        (err, result, fields)=>{
+            if(err){
+                res.json({status: 'error', message: err});
+                console.log(err);
+                return console.log("Error inserting student")
+            }
+            res.json({status: `Created New Event`})
+            console.log(result);
+        }
+    )
+});
+
+app.post('/createComm',(req,res)=>{
+    // SRN, First name, Last name, Email, Password, Section, Semester
+    console.log(req.body);
+    
+    // res.json({message: "Success"})
+    pool.query(
+    `call newComm('${req.body.comm_name}','${req.body.comm_description}',${req.body.comm_head_id})`, 
+        (err, result, fields)=>{
+            if(err){
+                res.json({status: 'error', message: err});
+                console.log(err);
+                return console.log("Error")
+            }
+            res.json({status: `Created New Community`})
+            console.log(result);
+        }
+    )
+});
+
+app.post('/createClub',(req,res)=>{
+    // SRN, First name, Last name, Email, Password, Section, Semester
+    // console.log(req.body);
+    
+    // res.json({message: "Success"})
+    pool.query(
+    `call newClub('${req.body.club_name}','${req.body.club_description}',${req.body.comm_id},'${req.body.club_head}')`, 
+        (err, result, fields)=>{
+            if(err){
+                res.json({status: 'error', message: err});
+                console.log(err);
+                return console.log("Error")
+            }
+            res.json({status: `Created New Club`})
+            console.log(result);
+        }
+    )
 });
 
 // app.post('/api/create-new-student',(req,res)=>{

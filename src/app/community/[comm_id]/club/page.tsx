@@ -1,5 +1,5 @@
 import React from 'react'
-import ClubNav from '../../components/ClubNav'
+import ClubNav from '../../../components/ClubNav'
 
 const Club = () => {
   return (

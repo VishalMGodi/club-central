@@ -8,9 +8,8 @@ const NewCommunity = () => {
     
     <>
     <HomeNav/>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt dolore veritatis obcaecati repellendus, facere sint fugiat labore? Rerum harum minima soluta laudantium impedit! Facere incidunt ab, inventore voluptatem illo harum.</p>
-    <Link href="/community"><div>NewCommunity</div></Link>
-    <CommunityForm/>
+    <h1>New Community</h1>
+    <CommunityForm user_id={"1"}/>
     </>
   )
 }
