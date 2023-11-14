@@ -1,10 +1,10 @@
 // @ts-nocheck
 // @ts-ignore
-
+// 'use client'
 import React from 'react'
 import CommNav from '../../../components/CommNav'
 import axios from 'axios'
-
+import ShowClubs from '@/app/components/ShowClubs'
 
 const ClubInfo = async({params}) => {
   console.log("ClubInfo",params.comm_id)
@@ -14,12 +14,12 @@ const ClubInfo = async({params}) => {
   const response2 = await axios.get(`http://localhost:4000/commInfo/`,{params: {comm_id: id}});
   const comm_name = response2.data[0].comm_name;
 
+
   return (
     <div>
         <CommNav comm={comm_name} comm_id={String(id)}/>
-        <ul>
-            {clubs.map(club => <li key={club.club_id}>{club.club_name}</li>)}
-        </ul>
+        <h1>All Clubs</h1>
+        <ShowClubs clubs={clubs}/>
     </div>
   )
 }

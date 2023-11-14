@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react'
 import CommNav from '@/app/components/CommNav'
 import axios from 'axios'

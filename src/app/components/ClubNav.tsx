@@ -15,9 +15,6 @@ const ClubNav = (props: {club_name: String, club_id: String, comm_id: String, co
            <Link href="/community/club">Discussions</Link> 
            </li>
            <li>
-           <Link href="/community/club">Add Details</Link> 
-           </li>
-           <li>
              <Link href={`/community/${props.comm_id}/clubList/${props.club_id}/newEvent`}>Post Upcoming Event</Link> 
            </li>
            <li>

@@ -18,6 +18,9 @@ const HomeNav = () => {
       <Link href="/community">My Communities</Link> 
       </li>
       <li>
+      <Link href="/joinComm">Join Community Requests</Link> 
+      </li>
+      <li>
         <Link href="/signIn">Sign In</Link> 
       </li>
       <li style={{"float":"right","padding":"2px"}}>

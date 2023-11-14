@@ -19,6 +19,9 @@ const CommNav = (props: {comm: String, comm_id: String}) => {
            <Link href={`/community/${props.comm_id}/clubList`}>My Clubs</Link> 
            </li>
            <li>
+             <Link href={`/community/${props.comm_id}/clubReq`}>Club Join Requests</Link> 
+           </li>
+           <li>
              <Link href={`/community/${props.comm_id}/announcements`}>Announcements</Link> 
            </li>
            <li style={{"float":"right","padding":"2px"}}>

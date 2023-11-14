@@ -18,6 +18,7 @@ const EventDetails = (props: {comm_id: String, club_id: String}) => {
     event_type: "",
     event_mode: "",
     event_description: "",
+    event_link: "",
     start_time: "",
     end_time: ""
   });
@@ -38,6 +39,7 @@ const EventDetails = (props: {comm_id: String, club_id: String}) => {
       event_type: "",
       event_mode: "",
       event_description: "",
+      event_link: "",
       start_time: "",
       end_time: ""
     });
@@ -51,6 +53,7 @@ const EventDetails = (props: {comm_id: String, club_id: String}) => {
         <label>Event Type:</label><input type="text" value={formValues.event_type} onChange={(e) =>setFormValues({...formValues,event_type:e.target.value})} placeholder='Event Type'/><br></br>
         <label>Event Mode:</label><input type="text" value={formValues.event_mode} onChange={(e) =>setFormValues({...formValues,event_mode:e.target.value})} placeholder='Event Mode'/><br></br>
         <label>Event Description:</label><br></br><textarea value={formValues.event_description} onChange={(e) =>setFormValues({...formValues,event_description:e.target.value})} placeholder='Description'/><br></br>
+        <label>Event Registration Link:</label><input type="text" value={formValues.event_link} onChange={(e) =>setFormValues({...formValues,event_link:e.target.value})} placeholder='Event Link'/><br></br>
         <label>Team Size:</label><input type="text" value={formValues.team_size} onChange={(e) =>setFormValues({...formValues,team_size:e.target.value})} placeholder='Team Size'/><br></br>
         <label>Prize Money:</label><input type="text" value={formValues.prize_money} onChange={(e) =>setFormValues({...formValues,prize_money:e.target.value})} placeholder='Prize'/><br></br>
         <label>Start Time:</label><input type="text" value={formValues.start_time} pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}" onChange={(e) =>setFormValues({...formValues,start_time:e.target.value})} placeholder='Start'/><br></br>
