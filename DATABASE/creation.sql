@@ -1,5 +1,6 @@
-create database club_central;
-use club_central;
+-- drop database club_central2;
+create database club_central2;
+use club_central2;
 
 
 create table user(
@@ -107,13 +108,13 @@ CREATE TABLE message(
     club_id INT,
     message_id INT AUTO_INCREMENT,
     data BLOB,
-    PRIMARY KEY(user_id, club_id, message_id)
+    PRIMARY KEY(message_id) --PRIMARY KEY(user_id, club_id, message_id)
 );
 
 ALTER TABLE register_for_event ADD CONSTRAINT fk_rfe_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
 ALTER TABLE register_for_event ADD CONSTRAINT fk_rfe_event_id
-FOREIGN KEY (event_id) REFERENCES user (event_id);
+FOREIGN KEY (event_id) REFERENCES user (user_id);
 
 ALTER TABLE event ADD CONSTRAINT fk_event_club_id
 FOREIGN KEY (club_id) REFERENCES club (club_id);
@@ -124,7 +125,7 @@ FOREIGN KEY (club_id) REFERENCES club (club_id);
 ALTER TABLE club ADD CONSTRAINT fk_club_comm_id
 FOREIGN KEY (comm_id) REFERENCES community (comm_id);
 ALTER TABLE club ADD CONSTRAINT fk_club_user_id
-FOREIGN KEY (user_id) REFERENCES user (user_id);
+FOREIGN KEY (club_head_id) REFERENCES user (user_id);
 
 ALTER TABLE member_of_club ADD CONSTRAINT fk_moc_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);
@@ -194,8 +195,84 @@ END;
 $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS newComm;
+delimiter //
+create procedure newComm(in name varchar(30),in description longtext,in head_id int)
+begin
+declare comm int;
+insert into community(comm_name,comm_description,comm_head_id) values(name,description,head_id);
+select max(comm_id) from community into comm;
+insert into belongs_to_comm values(comm,head_id);
+end
+//
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS newClub;
+delimiter //
+create procedure newClub(in name varchar(30),in description longtext,in comm int, in head varchar(30))
+begin
+declare guy int;
+declare clubby int;
+select user_id into guy from user where username=head;
+insert into club(comm_id,club_head_id,club_description,club_name) values(comm,guy,description,name);
+select max(club_id) from club into clubby;
+insert into member_of_club values(clubby,guy);
+end;
+//
+delimiter ;
 
 
+DROP PROCEDURE IF EXISTS sendCommReq;
+delimiter //
+create procedure sendCommReq(in name varchar(30),in id int)
+begin
+declare guy int;
+select user_id into guy from user where username=name;
+insert into comm_requests(comm_id,user_id) values(id,guy);
+end;
+//
+delimiter ;
+
+DROP PROCEDURE IF EXISTS sendClubReq;
+delimiter //
+create procedure sendClubReq(in name varchar(30),in id int)
+begin
+declare guy int;
+select user_id into guy from user where username=name;
+insert into club_requests(club_id,user_id) values(id,guy);
+end;
+//
+delimiter ;
+
+DROP PROCEDURE IF EXISTS handleCommReq
+delimiter //
+create procedure handleCommReq(in decision varchar(10), in id int)
+begin
+	declare userid int;
+    declare commid int;
+	if decision = "true" then
+		select comm_id into commid from comm_requests where req_id=id;
+        select user_id into userid from comm_requests where req_id=id;
+        insert into belongs_to_comm values(commid,userid);
+	end if;
+    delete from comm_requests where req_id=id;
+end //
+delimiter ;
+
+DROP PROCEDURE IF EXISTS handleClubReq;
+delimiter //
+create procedure handleClubReq(in decision varchar(10), in id int)
+begin
+	declare userid int;
+    declare clubid int;
+	if decision = "true" then
+		select club_id into clubid from club_requests where req_id=id;
+        select user_id into userid from club_requests where req_id=id;
+        insert into member_of_club values(clubid,userid);
+	end if;
+    delete from club_requests where req_id=id;
+end //
+delimiter ;
 
 -- -- # Primary Key Constraint
 -- ALTER TABLE table_name ADD CONSTRAINT pk_constraint_name

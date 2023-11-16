@@ -1,8 +1,30 @@
+"use client";
 import React from 'react'
 import styles from '@/app/styles/homeNav.module.css'
 import Link from 'next/link'
+import { signIn, signOut, useSession } from "next-auth/react"
 import Image from 'next/image'
 import img from '../../../public/LogoName.png'
+
+
+function AuthButton(){
+  const { data: session } = useSession();
+  if (session){
+    return (
+      <>
+        {session?.user?.name} <br/>
+        <button onClick={()=> signOut()}>Sign Out</button>
+      </>
+    )
+  }else{
+    return (
+      <>
+        {/* Not Signed In <br/> */}
+        <button onClick={()=> signIn()}>Sign In</button>
+      </>
+    )
+  }
+}
 
 const HomeNav = () => {
   return (
@@ -21,7 +43,7 @@ const HomeNav = () => {
       <Link href="/joinComm">Join Community Requests</Link> 
       </li>
       <li>
-        <Link href="/signIn">Sign In</Link> 
+        <AuthButton/>
       </li>
       <li style={{"float":"right","padding":"2px"}}>
       <Link href="/">Club Central</Link> 

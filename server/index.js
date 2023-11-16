@@ -36,7 +36,7 @@ app.get('/test',(req,res)=>{
     console.log(req.query);
     pool.query(`select * from user where user_id=1`, (err, result, fields)=>{
         if(err){
-            return console.log(err);
+            return console.log(err, "err");
         }
         // console.log(fields);
         // console.log(result);
