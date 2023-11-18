@@ -15,7 +15,7 @@ const Announcements = async({params}) => {
     <CommNav comm={datas[0].comm_name} comm_id={String(datas[0].comm_id)}/>
     <h1>Announcements</h1>
     <ul>
-        {events.map(event => <li key={event.event_id}>{event.event_name}</li>)}
+        {events.map(event => <li key={event.event_id}>{event.event_name}-{event.club_name}</li>)}
     </ul>
     </>
   )

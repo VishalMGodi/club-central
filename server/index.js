@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'amaatra123',
+    password: '12345678',
     database: 'club_central2',
     connectionLimit: 10
 })
@@ -47,6 +47,25 @@ app.get('/test',(req,res)=>{
     // res.json({status: true})
 });
 
+
+app.get('/checkUser',(req,res)=>{
+    console.log("/checkUser", req.query);
+    var query =`select * from user where username='${req.query.username}' ${req.query.signup?"or":"and"} email='${req.query.email}'`
+    if( !req.query.signup)
+        query +=  `and passwd='${req.query.password}'`
+    pool.query(query, (err, result, fields)=>{
+        if(err){
+            return console.log(err, "err");
+        }
+        // console.log(fields);
+        // console.log(result);
+        // console.log(req)
+        // console.log(res)
+        console.log(result)
+        res.json(result);
+    })
+    // res.json({status: true})
+});
 
 app.get('/getComm/',(req,res)=>{
     const id=req.query.userid;
@@ -165,6 +184,26 @@ app.get(`/clubReq/`,(req,res)=>{
         res.json(result);
     })
     // res.json({status: true})
+});
+
+
+app.post('/createUser',(req,res)=>{
+    // SRN, First name, Last name, Email, Password, Section, Semester
+    console.log(req.body);
+    
+    // res.json({message: "Success"})
+    pool.query(
+    `insert into user(username, email, passwd, date_of_birth) values ('${req.body.username}', '${req.body.email}', '${req.body.password}', '${req.body.dob}');`, 
+        (err, result, fields)=>{
+            if(err){
+                res.json({status: 'error', message: err});
+                console.log(err);
+                return console.log("Error inserting student")
+            }
+            res.json({status: `Created New user`})
+            console.log(result);
+        }
+    )
 });
 
 app.post('/createEvent',(req,res)=>{
