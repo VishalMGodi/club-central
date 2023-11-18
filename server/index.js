@@ -50,9 +50,16 @@ app.get('/test',(req,res)=>{
 
 app.get('/checkUser',(req,res)=>{
     console.log("/checkUser", req.query);
-    var query =`select * from user where username='${req.query.username}' ${req.query.signup?"or":"and"} email='${req.query.email}'`
-    if( !req.query.signup)
-        query +=  `and passwd='${req.query.password}'`
+    var uname = username=`username='${req.query.username}'`
+    var email = email=`email='${req.query.email}'`
+    var pword = `and passwd='${req.query.password}'`
+    var query ="select * from user where "+email;
+     
+    if(!req.query.google){
+        query+= (req.query.signup?"or":"and") + uname
+        if( !req.query.signup) query +=  pword
+    }
+    console.log("query", query)
     pool.query(query, (err, result, fields)=>{
         if(err){
             return console.log(err, "err");

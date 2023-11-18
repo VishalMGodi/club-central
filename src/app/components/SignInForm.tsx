@@ -29,6 +29,26 @@ const SignInForm = () => {
       router.refresh();
     }
   };
+  const handleSubmitG = async (e: any) => {
+    e.preventDefault();
+    const response = await signIn('google', {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+    }
+    });
+
+    console.log("SignUpForm", response );
+    if (!response?.error) {
+      router.push('/');
+      router.refresh();
+    }
+  };
 
 
 
@@ -51,66 +71,24 @@ const SignInForm = () => {
         value={formValues.password} onChange={(e) =>setFormValues({...formValues,password:e.target.value})}
         style={inputStyle}
         /><br />
-
+    <br/>
     <div style={{display:"flex", transform:"translateX(25%)"}}>
-      <div style={{width:"150px", backgroundColor:"rgb(200,200,200)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px"}}
+      <div style={{width:"125px", backgroundColor:"rgb(200,200,200)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px", marginRight:"3px"}}
         onMouseOver={e=>e.target.style.backgroundColor='rgb(180,180,180)'}
         onMouseOut={e=>e.target.style.backgroundColor='rgb(200,200,200)'}
         onClick={handleSubmitC}>SignIn</div>
 
-      <div style={{width:"50px", backgroundColor:"rgb(54, 169, 253)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px"}}
-      onMouseOver={e=>e.target.style.backgroundColor='rgb(34, 149, 233)'}
-      onMouseOut={e=>e.target.style.backgroundColor='rgb(54, 169, 253)'}
-      onClick={e=>{router.push("/api/auth/signUp")}}> SignUp</div>
+      <div style={{width:"75px", backgroundColor:"rgb(54, 169, 253)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px"}}
+        onMouseOver={e=>e.target.style.backgroundColor='rgb(34, 149, 233)'}
+        onMouseOut={e=>e.target.style.backgroundColor='rgb(54, 169, 253)'}
+        onClick={e=>{router.push("/api/auth/signUp");router.refresh()}}> SignUp</div>
     </div>
+    <div style={{width:"200px", backgroundColor:"rgb(238, 81, 81)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px", transform:"translateX(50%)", marginLeft:"3px"}}
+      onMouseOver={e=>e.target.style.backgroundColor='rgb(218, 61, 61)'}
+      onMouseOut={e=>e.target.style.backgroundColor='rgb(238, 81, 81)'}
+      onClick={handleSubmitG}>SignIn with Google</div>
 
   </ div>)
-  return (
-        <div className="paage">
-          <div className="signin">
-            <div className="card">
-              <div className="provider">
-                <form action="http://localhost:3000/api/auth/signin/github" method="POST">
-                  <input type="hidden" name="csrfToken" value="0a7ccfdf7ec331c343910ff3bce1c2305e2d7977c782c65d75f9f6abe3b84d4b" />
-                  <input type="hidden" name="callbackUrl" value="/community" />
-                  <button type="submit" className="button">
-                    <img loading="lazy" height="24" width="24" id="provider-logo" src="https://authjs.dev/img/providers/github.svg" />
-                    <span>Sign in with GitHub</span>
-                  </button>
-                </form>
-              </div>
-              <div className="provider">
-                <form action="http://localhost:3000/api/auth/signin/google" method="POST">
-                  <input type="hidden" name="csrfToken" value="0a7ccfdf7ec331c343910ff3bce1c2305e2d7977c782c65d75f9f6abe3b84d4b" />
-                  <input type="hidden" name="callbackUrl" value="/community" />
-                  <button type="submit" className="button">
-                    <img loading="lazy" height="24" width="24" id="provider-logo" src="https://authjs.dev/img/providers/google.svg" />
-                    <span>Sign in with Google</span>
-                  </button>
-                </form>
-              </div>
-              <div className="provider">
-                <hr/><form action="http://localhost:3000/api/auth/callback/credentials" method="POST">
-                      <input type="hidden" name="csrfToken" value="0a7ccfdf7ec331c343910ff3bce1c2305e2d7977c782c65d75f9f6abe3b84d4b" />
-                      <div>
-                        <label className="section-header" >Username:</label>
-                        <input name="username" id="input-username-for-credentials-provider" type="text" placeholder="Your Username" />
-                      </div>
-                      <div>
-                        <label className="section-header" >Email:</label>
-                        <input name="email" id="input-email-for-credentials-provider" type="text" placeholder="Your Email" />
-                      </div>
-                      <div>
-                        <label className="section-header" htmlFor="input-password-for-credentials-provider">Password:</label>
-                        <input name="password" id="input-password-for-credentials-provider" type="text" placeholder="Your Password"  />
-                      </div>
-                      <button type="submit">Sign in with Credentials</button>
-                    </form>
-              </div>
-            </div>
-          </div>
-        </div>
-  )
 }
 
 export default SignInForm
