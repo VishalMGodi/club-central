@@ -25,11 +25,11 @@ var googleProvider = GoogleProvider({
 var credentialsProvider = CredentialsProvider({
     name: "Credentials",
     credentials: {
-        username: {
-            label: "Username:",
-            type: "text",
-            placeholder: "Your Username"
-        },
+        // username: {
+        //     label: "Username:",
+        //     type: "text",
+        //     placeholder: "Your Username"
+        // },
         email: {
             label: "Email:",
             type: "text",
@@ -49,13 +49,14 @@ var credentialsProvider = CredentialsProvider({
     },
     async authorize(credentials) {
         // const user = { id: "42", name: "Dave", password: "123456789"};
-        console.log("options.ts", "authorize", credentials)
+        console.log("options.ts authorize, credentials=", credentials)
         var validate = await axios.get("http://localhost:4000/checkUser/", { params: {
-            username: credentials?.username,
+            // username: credentials?.username || "",
+            username: "", //hotfix
             email: credentials?.email,
             password: credentials?.password
         }})
-        console.log("validation", validate.data, validate.data[0])
+        console.log("validation.data =", validate.data, "validation.data[0]=",validate.data[0])
         // alert(validate.data)
         if (validate.data.length && credentials!==undefined){
             const user = validate.data[0]
@@ -75,7 +76,9 @@ export const AuthOptions: NextAuthOptions = {
     providers: [ githubProvider, googleProvider, credentialsProvider ],
     callbacks: {
         async session({ session, token, user }){
-            console.log("CALBAK sess", session, token, user)
+            // console.log("CALBAK sess session=", session, "token=",token, "user=",user, "sess done------------------------------------------")
+            
+            // session.user.id = 1200;
             // if(!session.id){
             //     const user = session.user
             //     var validate = await axios.get("http://localhost:4000/checkUser/", { params: { email: user?.email, google: true } })
@@ -88,17 +91,16 @@ export const AuthOptions: NextAuthOptions = {
             return Promise.resolve(session);
         },
         async signIn({ account, profile }) {
-            console.log("CALBAK sigIn", account, profile, "====================")
+            // console.log("CALBAK sigIn account=", account, "profile=",profile, "====================")
             if (account?.provider === "google") {
                 var validate = await axios.get("http://localhost:4000/checkUser/", { params: { email: profile?.email, google: true } })
-                console.log(validate.data, "-----------------------------------")
+                // console.log("validate.data=", validate.data, "-----------------------------------")
                 if (validate && validate.data && validate.data.length ){
-                    // return true
-                    const user = validate.data[0]
-                    console.log(user)
-                    profile.name = user.username;
-                    profile.sub = user.user_id;
                     return true
+                    // const user = validate.data[0]
+                    // console.log(user)
+                    // profile.name = user.username;
+                    // profile.sub = user.user_id;
                     // return {
                     //     name:  user.username,
                     //     email:  user.email,

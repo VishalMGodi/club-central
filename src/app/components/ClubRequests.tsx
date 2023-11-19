@@ -27,7 +27,12 @@ const ClubRequests = (props) => {
   return (
     <div>
        <ul>
-            {reqs.map(req => <li key={req.club_id}>{req.club_name} <button onClick={()=>{handleSubmit(req.req_id,"true")}}>Accept</button> <button onClick={()=>{handleSubmit(req.req_id,"false")}}>Reject</button></li>)}
+            {reqs.map(req =>
+            <li key={req.club_id}>
+              {req.club_name}
+              <button onClick={()=>{handleSubmit(req.req_id,"true")}}>Accept</button>
+              <button onClick={()=>{handleSubmit(req.req_id,"false")}}>Reject</button>
+            </li>)}
        </ul>
     </div>
   )

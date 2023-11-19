@@ -54,11 +54,11 @@ const SignInForm = () => {
 
   return (<div id='box'
   style={{position:"absolute", left:"50%", top:"50%",transform:"translate(-50%, -50%)", backgroundColor:"white", width:"50%", height:"50%", textAlign: "center"}}>
-    <label htmlFor='username'>Username:</label><br />
+    {/* <label htmlFor='username'>Username:</label><br />
     <input id="username" type="text" placeholder='new username' required pattern="[_A-Za-z0-9]{5,30}"
         value={formValues.username} onChange={(e) =>setFormValues({...formValues,username:e.target.value})}
         style={inputStyle}
-        /><br />
+        /><br /> */}
   
     <label htmlFor='username'>Email:</label><br/>
     <input id="email" type="email" placeholder='email' required
@@ -83,10 +83,10 @@ const SignInForm = () => {
         onMouseOut={e=>e.target.style.backgroundColor='rgb(54, 169, 253)'}
         onClick={e=>{router.push("/api/auth/signUp");router.refresh()}}> SignUp</div>
     </div>
-    <div style={{width:"200px", backgroundColor:"rgb(238, 81, 81)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px", transform:"translateX(50%)", marginLeft:"3px"}}
+    {/* <div style={{width:"200px", backgroundColor:"rgb(238, 81, 81)", borderRadius:"5px", height:"30px", textAlign: "center", lineHeight:"30px", transform:"translateX(50%)", marginLeft:"3px"}}
       onMouseOver={e=>e.target.style.backgroundColor='rgb(218, 61, 61)'}
       onMouseOut={e=>e.target.style.backgroundColor='rgb(238, 81, 81)'}
-      onClick={handleSubmitG}>SignIn with Google</div>
+      onClick={handleSubmitG}>SignIn with Google</div> */}
 
   </ div>)
 }

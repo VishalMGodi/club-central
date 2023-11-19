@@ -68,6 +68,7 @@
 import React from 'react'
 import HomeNav from '../components/HomeNav'
 import Link from 'next/link'
+import styles from '@/app/styles/community.module.css'
 import { useState } from 'react'
 import axios from 'axios'
 // import { signIn, signOut, useSession } from "next-auth/react"
@@ -95,9 +96,16 @@ const CommunityList = async () => {
     <div>
         <HomeNav/>
         <h1>My Communities</h1>
-        <ul>
-        {datas.map(data => <Link href={`/community/${String(data.comm_id)}`}><li key={data.comm_id}>{data.comm_name}</li></Link>)}
-        </ul>
+        {/* <ul> */}
+        {datas.map(data => 
+          <Link href={`/community/${String(data.comm_id)}`}>
+            <div key={data.comm_id} className={styles.Community}>
+                {data.comm_name.toUpperCase()}<br/>
+                <cite className={styles.CommunityDescription}>{data.comm_description}</cite>
+            </div>
+          </Link>
+        )}
+        {/* </ul> */}
         <Link href="/createcommunity"><CreateComm option={"Community"}/></Link>
     </div>
   )

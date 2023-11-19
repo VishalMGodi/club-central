@@ -56,8 +56,9 @@ app.get('/checkUser',(req,res)=>{
     var query ="select * from user where "+email;
      
     if(!req.query.google){
-        query+= (req.query.signup?"or":"and") + " "+ uname
-        if( !req.query.signup) query +=  pword
+        // query+= (req.query.signup?"or":"and") + " "+ uname
+        if( req.query.signup ) query += "or "+uname;//hotfix //TODO 
+        if( !req.query.signup) query +=  pword;
     }
     console.log("query", query)
     pool.query(query, (err, result, fields)=>{

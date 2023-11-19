@@ -17,7 +17,9 @@ const CommunityForm = (props: {user_id: String}) => {
     e.preventDefault()
     // console.log(formValues.name)
     // console.log(formValues.email)
-    axios.post("http://localhost:4000/createComm", formValues)
+    var obj = {...formValues}
+    obj.comm_description = obj.comm_description.replace("'","")
+    axios.post("http://localhost:4000/createComm", obj)
     .then(response => {console.log(response.data)})
     .catch(error => {console.log(error)});
 

@@ -1,0 +1,17 @@
+.Community{
+    width:fit-content;
+    height:fit-content;
+    min-height: 60px;
+    min-width: 200px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    color: white;
+    padding: 5px;
+    letter-spacing: 5px;
+    font-weight: bolder;
+}
+.CommunityDescription{
+    margin-left: 20px;
+    letter-spacing: normal;
+    font-weight: normal;
+}

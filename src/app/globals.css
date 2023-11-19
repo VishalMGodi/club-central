@@ -19,11 +19,18 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
+      to right,
+      rgb(255, 112, 112),
+      rgb(226, 226, 86)
     )
     rgb(var(--background-start-rgb));
+    /* background-image: url("https://t3.ftcdn.net/jpg/00/86/56/12/360_F_86561234_8HJdzg2iBlPap18K38mbyetKfdw1oNrm.jpg"); */
+    background-image: url("https://img.freepik.com/premium-photo/light-blue-background-with-light-blue-background-with-light-blue-background_693425-772.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  /* background: linear-gradient(); */
+  height: 100vh;
 }
 
 
