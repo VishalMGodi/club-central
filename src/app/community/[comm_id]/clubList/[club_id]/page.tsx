@@ -4,9 +4,11 @@ import React from 'react'
 import axios from 'axios'
 import ClubNav from '@/app/components/ClubNav'
 import AddToClub from '@/app/components/AddToClub'
+import { getServerSession } from 'next-auth'
 
 const Club = async({params}) => {
-    const user_id = 1
+    const session = await getServerSession()
+    const user_id = session?.user?.email;
     var show = false
     console.log(params.comm_id)
     const comm = await axios.get(`http://localhost:4000/commInfo/`,{params: {comm_id: params.comm_id}})

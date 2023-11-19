@@ -10,6 +10,7 @@ import img from '../../../public/LogoName.png'
 function AuthButton(){
   const { data: session } = useSession();
   if (session){
+    console.log("SESSION", session)
     return (
       <>
         {session?.user?.name} <br/>

@@ -5,9 +5,12 @@ import React from 'react'
 import CommNav from '../../../components/CommNav'
 import axios from 'axios'
 import ClubRequests from '@/app/components/ClubRequests'
+import { getServerSession } from 'next-auth'
+
 
 const ClubReq = async({params}) => {
-  const user_id = 1
+  const session = await getServerSession()
+  const user_id = session?.user?.email
   console.log(params)
   var comm_id=params.comm_id
   const response = await axios.get("http://localhost:4000/clubReq/",{params: {comm_id: comm_id, user_id: user_id}})

@@ -4,10 +4,12 @@ import React from 'react'
 import CommNav from '@/app/components/CommNav'
 import axios from 'axios'
 import AddToComm from '@/app/components/AddToComm'
+import { getServerSession } from 'next-auth'
 
 
 const Comm = async ({params}) => {
-    const user_id = 1
+    const session = await getServerSession()
+    const user_id = session?.user?.email
     var show = false
     var id=params.comm_id
     const response = await axios.get(`http://localhost:4000/commInfo/`,{params: {comm_id: id}})

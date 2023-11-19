@@ -6,10 +6,12 @@ import Link from 'next/link'
 import CommNav from '../../../components/CommNav'
 import CreateComm from '../../../components/CreateComm'
 import axios from 'axios'
+import { getServerSession } from 'next-auth'
 
 
 const ClubList = async({params}) => {
-  const user_id = 1
+  const session = await getServerSession()
+  const user_id = session?.user?.email;
   var show = false
   console.log(params)
   var id=params.comm_id

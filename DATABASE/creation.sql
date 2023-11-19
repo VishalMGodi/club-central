@@ -15,6 +15,7 @@ create table user(
 
 create table community(
     comm_id INT AUTO_INCREMENT,
+    comm_head_id INT,
     comm_name VARCHAR(30),
     location_id INT,
     comm_description LONGTEXT,
@@ -152,6 +153,8 @@ FOREIGN KEY (location_id) REFERENCES location (location_id);
 
 ALTER TABLE community ADD CONSTRAINT fk_community_location_id
 FOREIGN KEY (location_id) REFERENCES location (location_id);
+ALTER TABLE community ADD CONSTRAINT fk_community_club_head_id
+FOREIGN KEY (club_head_id) REFERENCES user (user_id);
 
 ALTER TABLE submit_form ADD CONSTRAINT fk_sf_user_id
 FOREIGN KEY (user_id) REFERENCES user (user_id);

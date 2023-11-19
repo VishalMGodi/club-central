@@ -61,8 +61,9 @@ var credentialsProvider = CredentialsProvider({
             const user = validate.data[0]
             return {
                 name:  user.username,
-                email:  user.email,
+                email:  user.user_id,
                 id: user.user_id,
+                image: user.user_id,
             }
         }else return null
 
@@ -75,14 +76,14 @@ export const AuthOptions: NextAuthOptions = {
     callbacks: {
         async session({ session, token, user }){
             console.log("CALBAK sess", session, token, user)
-            if(!session.id){
-                const user = session.user
-                var validate = await axios.get("http://localhost:4000/checkUser/", { params: { email: user?.email, google: true } })
-                if (validate && validate.data && validate.data.length ){
-                    session.id = validate.data[0].user_id;
-                    session.user.name = validate.data[0].username;
-                }
-            }
+            // if(!session.id){
+            //     const user = session.user
+            //     var validate = await axios.get("http://localhost:4000/checkUser/", { params: { email: user?.email, google: true } })
+            //     if (validate && validate.data && validate.data.length ){
+            //         session.id = validate.data[0].user_id;
+            //         session.user.name = validate.data[0].username;
+            //     }
+            // }
             // session.id = token.sub
             return Promise.resolve(session);
         },

@@ -70,7 +70,9 @@ import HomeNav from '../components/HomeNav'
 import Link from 'next/link'
 import { useState } from 'react'
 import axios from 'axios'
+// import { signIn, signOut, useSession } from "next-auth/react"
 import CreateComm from '../components/CreateComm'
+import { getServerSession } from 'next-auth'
 
 const CommunityList = async () => {
   // const [comm,setComm] = useState("")
@@ -78,7 +80,11 @@ const CommunityList = async () => {
   //   console.log(response.json())
     // setComm(response.data)
     
-    const response = await axios.get("http://localhost:4000/getComm/",{params: {userid: 1}})
+    const session = await getServerSession();
+    // const { data: session } = useSession();
+    console.log(session, "COMM")
+    const user_id = session?.user?.email
+    const response = await axios.get("http://localhost:4000/getComm/",{params: {userid: user_id}})
     const datas = response.data
     console.log(datas)
 
