@@ -15,7 +15,7 @@ const ClubList = async({params}) => {
   var show = false
   console.log(params)
   var id=params.comm_id
-  const response = await axios.get(`http://localhost:4000/myClubs/`, {params:{user: 1, comm: id}});
+  const response = await axios.get(`http://localhost:4000/myClubs/`, {params:{user: user_id, comm: id}});
   const clubs = response.data
   const response2 = await axios.get(`http://localhost:4000/commInfo/`,{params: {comm_id: id}})
   const comms = response2.data
