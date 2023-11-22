@@ -18,7 +18,7 @@ const LeaveClub = (props) => {
       }
   return (
     <div>
-        <Link href={`/community/${props.comm_id}/clubList`}><button onClick={handleSubmit}>Leave Club</button></Link>
+        <Link href={`/community/${props.comm_id}`}><button onClick={handleSubmit}>Leave Club</button></Link>
     </div>
   )
     }
