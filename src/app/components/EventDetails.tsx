@@ -28,8 +28,8 @@ const EventDetails = (props: {comm_id: String, club_id: String}) => {
     // console.log(formValues.name)
     // console.log(formValues.email)
     axios.post("http://localhost:4000/createEvent", formValues)
-    .then(response => {console.log(response.data)})
-    .catch(error => {console.log(error)});
+    .then(response => {console.log(response.data); alert("Successful")})
+    .catch(error => {console.log(error); alert("Failed")});
 
     setFormValues({
       club_id: props.club_id,
@@ -50,14 +50,14 @@ const EventDetails = (props: {comm_id: String, club_id: String}) => {
     <div>
       <form onSubmit={handleSubmit}>
         <label>Event Name:</label><input type="text" value={formValues.event_name} onChange={(e) =>setFormValues({...formValues,event_name:e.target.value})} placeholder='Event Name'/><br></br>
-        <label>Event Type:</label><input type="text" value={formValues.event_type} onChange={(e) =>setFormValues({...formValues,event_type:e.target.value})} placeholder='Event Type'/><br></br>
-        <label>Event Mode:</label><input type="text" value={formValues.event_mode} onChange={(e) =>setFormValues({...formValues,event_mode:e.target.value})} placeholder='Event Mode'/><br></br>
+        <label>Event Type:</label><input type="text" value={formValues.event_type} onChange={(e) =>setFormValues({...formValues,event_type:e.target.value})} placeholder='Technical/Cultural/Miscellaneous'/><br></br>
+        <label>Event Mode:</label><input type="text" value={formValues.event_mode} onChange={(e) =>setFormValues({...formValues,event_mode:e.target.value})} placeholder='Online/Offline/Hybrid'/><br></br>
         <label>Event Description:</label><br></br><textarea value={formValues.event_description} onChange={(e) =>setFormValues({...formValues,event_description:e.target.value})} placeholder='Description'/><br></br>
         <label>Event Registration Link:</label><input type="text" value={formValues.event_link} onChange={(e) =>setFormValues({...formValues,event_link:e.target.value})} placeholder='Event Link'/><br></br>
         <label>Team Size:</label><input type="text" value={formValues.team_size} onChange={(e) =>setFormValues({...formValues,team_size:e.target.value})} placeholder='Team Size'/><br></br>
         <label>Prize Money:</label><input type="text" value={formValues.prize_money} onChange={(e) =>setFormValues({...formValues,prize_money:e.target.value})} placeholder='Prize'/><br></br>
-        <label>Start Time:</label><input type="text" value={formValues.start_time} pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}" onChange={(e) =>setFormValues({...formValues,start_time:e.target.value})} placeholder='Start'/><br></br>
-        <label>End Time:</label><input type="text" value={formValues.end_time} pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}" onChange={(e) =>setFormValues({...formValues,end_time:e.target.value})} placeholder='End'/><br></br>
+        <label>Start Time:</label><input type="text" value={formValues.start_time} pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}" onChange={(e) =>setFormValues({...formValues,start_time:e.target.value})} placeholder='yyyy-mm-dd hh:mm:ss format'/><br></br>
+        <label>End Time:</label><input type="text" value={formValues.end_time} pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}" onChange={(e) =>setFormValues({...formValues,end_time:e.target.value})} placeholder='yyyy-mm-dd hh:mm:ss format'/><br></br>
         <button type="submit">Submit</button>
       </form>
     </div>

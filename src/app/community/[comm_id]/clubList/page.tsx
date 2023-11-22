@@ -15,7 +15,7 @@ const ClubList = async({params}) => {
   var show = false
   console.log(params)
   var id=params.comm_id
-  const response = await axios.get(`http://localhost:4000/myClubs/`, {params:{user: 1, comm: id}});
+  const response = await axios.get(`http://localhost:4000/myClubs/`, {params:{user: user_id, comm: id}});
   const clubs = response.data
   const response2 = await axios.get(`http://localhost:4000/commInfo/`,{params: {comm_id: id}})
   const comms = response2.data
@@ -27,7 +27,7 @@ const ClubList = async({params}) => {
         <CommNav comm={comms[0].comm_name} comm_id={`${id}`}/>
         <h1>My Clubs</h1>
         <ul>
-            {clubs.map(club => <Link href={`/community/${id}/clubList/${String(club.club_id)}`}><li key={club.club_id}>{club.club_name}</li></Link>)}
+            {clubs.map(club => <Link style={{color: 'white', textDecoration: 'none'}} href={`/community/${id}/clubList/${String(club.club_id)}`}><li key={club.club_id}>{club.club_name}</li></Link>)}
         </ul>
            {show && <Link href={`/community/${id}/createclub`}><CreateComm option={"Club"}/></Link> }       
     </div>

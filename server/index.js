@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: '12345678',
+    password: 'amaatra123',
     database: 'club_central2',
     connectionLimit: 10
 })
@@ -56,7 +56,8 @@ app.get('/checkUser',(req,res)=>{
     var query ="select * from user where "+email;
      
     if(!req.query.google){
-        query+= (req.query.signup?"or":"and") + " "+ uname
+        // query+= (req.query.signup?"or":"and") + " "+ uname
+        if( req.query.signup) query +=  "or "+uname 
         if( !req.query.signup) query +=  pword
     }
     console.log("query", query)
@@ -153,7 +154,7 @@ app.get(`/myClubs/`,(req,res)=>{
 
 app.get(`/allEvents/`,(req,res)=>{
     const id = req.query.comm_id
-    pool.query(`select * from event e left join club c on c.club_id=e.club_id where c.comm_id=${id} order by start_time;`, (err, result, fields)=>{
+    pool.query(`select * from event e left join club c on c.club_id=e.club_id where c.comm_id=${id} order by event_id desc`, (err, result, fields)=>{
         if(err){
             return console.log(err);
         }
@@ -341,6 +342,37 @@ app.post('/handleClubReq',(req,res)=>{
     )
 });
 
+app.post('/removeFromClub',(req,res)=>{
+    console.log(req.body)
+    pool.query(
+    `delete from member_of_club where club_id = ${req.body.club_id} and user_id = ${req.body.user_id}`, 
+        (err, result, fields)=>{
+            if(err){
+                res.json({status: 'error', message: err});
+                console.log(err);
+                return console.log("Error")
+            }
+            res.json({status: `Done`})
+            console.log(result);
+        }
+    )
+});
+
+app.post('/removeFromComm',(req,res)=>{
+    console.log(req.body)
+    pool.query(
+    `delete from belongs_to_comm where comm_id = ${req.body.comm_id} and user_id = ${req.body.user_id}`, 
+        (err, result, fields)=>{
+            if(err){
+                res.json({status: 'error', message: err});
+                console.log(err);
+                return console.log("Error")
+            }
+            res.json({status: `Done`})
+            console.log(result);
+        }
+    )
+});
 
 app.listen(PORT, ()=>{
     console.log(`Club Central Server started on port: ${PORT}`);

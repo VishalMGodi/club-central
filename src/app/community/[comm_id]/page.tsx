@@ -5,7 +5,8 @@ import CommNav from '@/app/components/CommNav'
 import axios from 'axios'
 import AddToComm from '@/app/components/AddToComm'
 import { getServerSession } from 'next-auth'
-
+import Link from 'next/link'
+import LeaveComm from '@/app/components/LeaveComm'
 
 const Comm = async ({params}) => {
     const session = await getServerSession()
@@ -26,6 +27,8 @@ const Comm = async ({params}) => {
     <h1>{datas[0].comm_name}</h1>
     <div>{datas[0].comm_description}</div>
     {show && <AddToComm comm_id={params.comm_id}/>}
+    <br></br>
+    <LeaveComm choice = {!show} comm_id = {id} user_id = {user_id} />
     </>
   )
 }

@@ -11,7 +11,7 @@ import { getServerSession } from 'next-auth'
 const ClubReq = async({params}) => {
   const session = await getServerSession()
   const user_id = session?.user?.email
-  console.log(params)
+  // console.log(params)
   var comm_id=params.comm_id
   const response = await axios.get("http://localhost:4000/clubReq/",{params: {comm_id: comm_id, user_id: user_id}})
   const reqs = response.data

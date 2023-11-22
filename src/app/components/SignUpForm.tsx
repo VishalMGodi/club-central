@@ -33,7 +33,9 @@ const SignUpForm = () => {
         else alert("username/email already exists");  
     }
 
-    return (<form onSubmit={handleSubmit}>
+    return (
+    <center>
+        <form onSubmit={handleSubmit}>
         <label>Username:</label>
         <input id="username" type="text" placeholder='new username' required
             value={formValues.username} pattern="[_A-Za-z0-9]{5,30}"
@@ -54,6 +56,8 @@ const SignUpForm = () => {
             value={formValues.dob}
             onChange={(e) =>setFormValues({...formValues,dob:e.target.value})}/><br />
         <button type="submit">Submit</button>
-    </form>)
+    </form>
+    </center>
+    )
 }
 export default SignUpForm;

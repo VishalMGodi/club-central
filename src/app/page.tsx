@@ -12,7 +12,7 @@ const Page = async() => {
     <>
     <HomeNav/>
     <h1>Welcome to Club Central</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste aliquid dolores assumenda provident inventore nobis dolorum dignissimos, dicta tempora expedita eos esse iure fugiat cum blanditiis sint sunt. Esse, molestiae.</p>
+    <p>Unleash your potential and connect with your passion by being the heartbeat of your community.</p>
     </>
     
     

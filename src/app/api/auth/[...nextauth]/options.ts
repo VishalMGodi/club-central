@@ -25,11 +25,11 @@ var googleProvider = GoogleProvider({
 var credentialsProvider = CredentialsProvider({
     name: "Credentials",
     credentials: {
-        username: {
-            label: "Username:",
-            type: "text",
-            placeholder: "Your Username"
-        },
+        // username: {
+        //     label: "Username:",
+        //     type: "text",
+        //     placeholder: "Your Username"
+        // },
         email: {
             label: "Email:",
             type: "text",
@@ -51,7 +51,8 @@ var credentialsProvider = CredentialsProvider({
         // const user = { id: "42", name: "Dave", password: "123456789"};
         console.log("options.ts", "authorize", credentials)
         var validate = await axios.get("http://localhost:4000/checkUser/", { params: {
-            username: credentials?.username,
+            username: "",
+            // credentials?.username,
             email: credentials?.email,
             password: credentials?.password
         }})

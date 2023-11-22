@@ -5,6 +5,8 @@ import axios from 'axios'
 import ClubNav from '@/app/components/ClubNav'
 import AddToClub from '@/app/components/AddToClub'
 import { getServerSession } from 'next-auth'
+import Link from 'next/link'
+import LeaveClub from '@/app/components/LeaveClub'
 
 const Club = async({params}) => {
     const session = await getServerSession()
@@ -17,7 +19,7 @@ const Club = async({params}) => {
     const clubs = club.data
 
     if(clubs[0].club_head_id===user_id) { show=true}
-
+    
     if(clubs[0].comm_id==comms[0].comm_id){
       return (
         <div>
@@ -25,6 +27,8 @@ const Club = async({params}) => {
         <h1>{clubs[0].club_name}</h1>
         <div>{clubs[0].club_description}</div>
         {show && <AddToClub club_id={params.club_id}/>}
+        <br></br>
+        <LeaveClub choice={!show} club_id = {params.club_id} user_id = {user_id} comm_id = {params.comm_id}/>
         </div>
         
       )

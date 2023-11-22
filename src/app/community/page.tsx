@@ -96,7 +96,7 @@ const CommunityList = async () => {
         <HomeNav/>
         <h1>My Communities</h1>
         <ul>
-        {datas.map(data => <Link href={`/community/${String(data.comm_id)}`}><li key={data.comm_id}>{data.comm_name}</li></Link>)}
+        {datas.map(data => <Link href={`/community/${String(data.comm_id)}`} style={{color: 'white', textDecoration: 'none'}}><li key={data.comm_id}>{data.comm_name}</li></Link>)}
         </ul>
         <Link href="/createcommunity"><CreateComm option={"Community"}/></Link>
     </div>
