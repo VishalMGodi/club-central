@@ -1,3 +1,5 @@
+// const dataenv = require('dataenv');
+// dataenv.config;
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
@@ -5,8 +7,8 @@ const bodyParser = require('body-parser');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'amaatra123',
-    database: 'club_central2',
+    password: "",
+    database: "",
     connectionLimit: 10
 })
 
